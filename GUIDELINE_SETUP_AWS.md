@@ -170,7 +170,7 @@ PUBLIC_EC2_KEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC... your_email@example.com
 
 ## 5. Choose AWS Region (Optional)
 
-The default region is `eu-central-1` (Frankfurt). You can override this in `.env`:
+The default region is `ap-northeast-1` (Tokyo). You can override this in `.env`:
 
 ```
 REGION=us-east-1
@@ -208,7 +208,7 @@ Common regions:
    AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
    AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
    PUBLIC_EC2_KEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC... your_email@example.com
-   REGION=eu-central-1
+   REGION=ap-northeast-1
    ```
 
 4. Save the file

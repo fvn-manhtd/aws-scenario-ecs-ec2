@@ -148,7 +148,7 @@ Required .env variables:
 - `TLD_ZONE_ID` - Route 53 Hosted Zone ID for top-level domain
 - `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` - AWS credentials
 - `PUBLIC_EC2_KEY` - SSH public key for EC2 instance access
-- `REGION` - AWS region (default: eu-central-1)
+- `REGION` - AWS region (default: ap-northeast-1)
 
 ## Known Behaviors
 

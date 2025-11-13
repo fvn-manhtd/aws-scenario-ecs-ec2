@@ -4,7 +4,7 @@
 
 variable "namespace" {
   description = "Namespace for resource names"
-  default     = "Nexgeneerz"
+  default     = "TestTerraform"
   type        = string
 }
 
@@ -20,7 +20,7 @@ variable "service_name" {
 
 variable "scenario" {
   description = "Scenario name for tags"
-  default     = "scenario-ecs-ec2"
+  default     = "test-terraform"
   type        = string
 }
 
@@ -46,7 +46,7 @@ variable "aws_secret_access_key" {
 
 variable "region" {
   description = "AWS region"
-  default     = "eu-central-1"
+  default     = "ap-northeast-1"
   type        = string
 }
 
