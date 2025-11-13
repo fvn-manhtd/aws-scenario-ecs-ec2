@@ -18,7 +18,8 @@ rm -rf infrastructure.tf.plan
 ## Read ECR repository URL to push Docker image with app to registry
 REPOSITORY_URL=$(terraform output -raw ecr_repository_url)
 REPOSITORY_BASE_URL=$(sed -r 's#([^/])/[^/].*#\1#' <<< ${REPOSITORY_URL})
-aws ecr get-login-password --region eu-central-1 | \
+REGION=$(terraform output -raw region)
+aws ecr get-login-password --region ${REGION} | \
     docker login --username AWS --password-stdin ${REPOSITORY_BASE_URL}
 
 ## Build Docker image and tag new versions for every deployment
