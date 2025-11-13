@@ -6,6 +6,80 @@ information about this project here](https://nexgeneerz.io/aws-computing-with-ec
 
 The demo project helps you to get a basic understanding of how ECS on EC2 works and what is possible with it. 
 
+
+
+## Infrastructure Diagram
+
+```mermaid
+flowchart TB
+    Internet((Internet))
+    Route53[Route 53]
+    CloudFront[CloudFront]
+
+    subgraph Region[AWS Region]
+      direction TB
+
+      ECR["ECR (Elastic Container Registry)"]
+      CW[CloudWatch]
+      ACM[Certificate Manager]
+
+      subgraph VPC[VPC]
+        direction TB
+        IGW[Internet Gateway]
+        ALB[(Application Load Balancer)]
+
+        subgraph AZa[AZ A]
+          direction TB
+          subgraph PubA[Public Subnet A]
+            BastionA[Bastion Host]
+            NATa[NAT Gateway]
+          end
+          subgraph PrivA[Private Subnet A]
+            subgraph ECSA[ECS Cluster Capacity A]
+              ASGa[Auto Scaling Group]
+              EC2a1[EC2 Container Instance]
+              EC2a2[EC2 Container Instance]
+            end
+          end
+        end
+
+        subgraph AZb[AZ B]
+          direction TB
+          subgraph PubB[Public Subnet B]
+            NATb[NAT Gateway]
+            BastionB[Bastion Host]
+          end
+          subgraph PrivB[Private Subnet B]
+            subgraph ECSB[ECS Cluster Capacity B]
+              ASGb[Auto Scaling Group]
+              EC2b1[EC2 Container Instance]
+              EC2b2[EC2 Container Instance]
+            end
+          end
+        end
+      end
+    end
+
+    Internet --> Route53 --> CloudFront --> ALB
+    IGW --- ALB
+
+    ALB -->|HTTP/HTTPS| ECSA
+    ALB -->|HTTP/HTTPS| ECSB
+
+    ECSA --> NATa --> IGW
+    ECSB --> NATb --> IGW
+
+    Internet --> BastionA
+    Internet --> BastionB
+
+    ECR --> ECSA
+    ECR --> ECSB
+    ECSA -. logs .-> CW
+    ECSB -. logs .-> CW
+    ACM --> ALB
+```
+
+
 ## Before you start
 
 > **Warning**
