@@ -64,7 +64,7 @@ resource "aws_main_route_table_association" "public_main" {
 
 resource "aws_eip" "nat_gateway" {
   count = var.az_count
-  vpc   = true
+  domain = "vpc"
 
   tags = {
     Name     = "${var.namespace}_EIP_${count.index}_${var.environment}"
