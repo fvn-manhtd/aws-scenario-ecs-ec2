@@ -113,7 +113,9 @@ Now set the appropriate values for the config variables:
 - Set `TF_VAR_public_ec2_key` with the public key of your SSH key (you must own the private key to be able to login to the EC2 instances)
 
 - Optional: set `REGION` to use a different region (default is `ap-northeast-1`)
-- Optional: set `LOCAL_IMAGE_NAMESPACE` to control the local Docker image tag prefix used during the build (for example `yourname` results in `yourname/scenario-aws-ecs-ec2`). Leave empty to omit a prefix.
+- Optional: set `SERVICE_NAME` to control 
+- Optional: set `LOCAL_IMAGE_NAMESPACE` to control the local Docker image tag prefix used during the build (for example `yourname` results in `yourname/${SERVICE_NAME}`). Leave empty to omit a prefix.
+
 
 After adding these variables, you are ready to start:
 

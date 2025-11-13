@@ -18,7 +18,7 @@ export TF_VAR_public_ec2_key = $(PUBLIC_EC2_KEY)
 ########################################################################################################################
 
 export TF_VAR_ecs_task_desired_count = 2
-export TF_VAR_service_name = scenario-aws-ecs-ec2
+export TF_VAR_service_name = $(SERVICE_NAME)
 export AWS_DEFAULT_REGION = $(TF_VAR_region)
 
 ########################################################################################################################
@@ -37,6 +37,9 @@ destroy: ## Deregister running ECS Tasks and run Terraform destroy
 
 destroy.clean: ## Run Terraform destroy without deregistering ECS Tasks
 	cd infra && terraform destroy -var hash=null -auto-approve
+
+validate: ## Validate Terraform configuration under infra
+	cd infra && terraform validate
 
 info: ## Print success info message after deployment including latest ECS task version number
 	$(info )
