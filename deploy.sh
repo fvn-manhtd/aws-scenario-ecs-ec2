@@ -8,6 +8,16 @@ cd infra
 ## Initialize Terraform
 terraform init
 
+## Optionally select or create workspace from ENVIRONMENT to allow parallel envs
+if [ -n "${ENVIRONMENT:-}" ]; then
+  if terraform workspace select "${ENVIRONMENT}" >/dev/null 2>&1; then
+    printf '%s\n' "Using terraform workspace '${ENVIRONMENT}'." >&2
+  else
+    terraform workspace new "${ENVIRONMENT}"
+    printf '%s\n' "Created terraform workspace '${ENVIRONMENT}'." >&2
+  fi
+fi
+
 ## Generate Terraform plan file
 terraform plan -var hash=${HASH} -out=infrastructure.tf.plan
 
