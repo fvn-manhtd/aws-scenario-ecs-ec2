@@ -1,25 +1,11 @@
 #!/bin/bash
 set -e
 
-# Use workspace from ENVIRONMENT if provided to target the right state
-cd infra
-terraform init
-if [ -n "${ENVIRONMENT:-}" ]; then
-  if terraform workspace select "${ENVIRONMENT}" >/dev/null 2>&1; then
-    printf '%s\n' "Using terraform workspace '${ENVIRONMENT}'." >&2
-  else
-    printf '%s\n' "Terraform workspace '${ENVIRONMENT}' not found. Aborting destroy." >&2
-    exit 1
-  fi
-fi
-
-ECS_SERVICE_NAME=$(terraform output -raw ecs_service_name)
+ECS_SERVICE_NAME=$(terraform output -state=infra/terraform.tfstate -raw ecs_service_name)
 printf '%s\n' "Using ECS Service name '${ECS_SERVICE_NAME}'." >&2
 
-ECS_CLUSTER_NAME=$(terraform output -raw ecs_cluster_name)
+ECS_CLUSTER_NAME=$(terraform output -state=infra/terraform.tfstate -raw ecs_cluster_name)
 printf '%s\n' "Using ECS Cluster name '${ECS_CLUSTER_NAME}'." >&2
-
-cd - >/dev/null
 
 aws ecs update-service --cluster ${ECS_CLUSTER_NAME} --service ${ECS_SERVICE_NAME} --desired-count 0 --no-cli-pager
 printf '%s\n' "'desired_count' of ECS Tasks has been set to 0." >&2

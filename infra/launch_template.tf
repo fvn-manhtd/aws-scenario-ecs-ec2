@@ -32,7 +32,9 @@ resource "aws_launch_template" "ecs_launch_template" {
   image_id               = data.aws_ami.amazon_linux_2.id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.default.key_name
-  user_data              = base64encode(data.template_file.user_data.rendered)
+  user_data              = base64encode(templatefile("user_data.sh", {
+    ecs_cluster_name = aws_ecs_cluster.default.name
+  }))
   vpc_security_group_ids = [aws_security_group.ec2.id]
 
   iam_instance_profile {
@@ -45,13 +47,5 @@ resource "aws_launch_template" "ecs_launch_template" {
 
   tags = {
     Scenario = var.scenario
-  }
-}
-
-data "template_file" "user_data" {
-  template = file("user_data.sh")
-
-  vars = {
-    ecs_cluster_name = aws_ecs_cluster.default.name
   }
 }

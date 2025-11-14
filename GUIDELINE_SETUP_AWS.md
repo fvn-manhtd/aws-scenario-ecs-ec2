@@ -85,6 +85,8 @@ TLD_ZONE_ID=Z1234567890ABC
    - `CloudFrontFullAccess`
    - `AmazonEC2ContainerRegistryFullAccess`
    - `IAMFullAccess` (for creating roles)
+   - `CloudWatchLogsFullAccess`
+   - `AWSCertificateManagerFullAccess`
    - Or create a custom policy with necessary permissions
 6. Click "Create user"
 
