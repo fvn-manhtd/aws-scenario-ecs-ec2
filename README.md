@@ -1,9 +1,5 @@
 # AWS ECS on EC2 using Terraform
 
-This sample project is part of the "Cloud Computing on AWS" article series and represents a complete, production-grade 
-setup of a container-based application on ECS on EC2. [You can find the related article with in-depth 
-information about this project here](https://nexgeneerz.io/aws-computing-with-ecs-ec2-terraform/).
-
 The demo project helps you to get a basic understanding of how ECS on EC2 works and what is possible with it. 
 
 
@@ -117,35 +113,7 @@ Now set the appropriate values for the config variables:
 - Optional: set `LOCAL_IMAGE_NAMESPACE` to control the local Docker image tag prefix used during the build (for example `yourname` results in `yourname/${SERVICE_NAME}`). Leave empty to omit a prefix.
 - Optional: set `ENVIRONMENT` to control the deployment environment (e.g., `dev`, `staging`, `prod`). The Makefile maps this to `TF_VAR_environment` for Terraform.
 
-### Multiple environments (.env.<env>)
-
-You can keep separate config files per environment and call dedicated make targets that automatically load them:
-
-- Create files:
-  - `.env.staging` (set `ENVIRONMENT=staging`, its own `DOMAIN_NAME`, `TLD_ZONE_ID`, etc.)
-  - `.env.prod` (or `.env.production`) (set `ENVIRONMENT=prod` and its own values)
-
-- Run with the matching target:
-  - `make deploy.staging` → uses `.env.staging`
-  - `make destroy.staging` → uses `.env.staging`
-  - `make validate.staging` → uses `.env.staging`
-  - Similarly, `make deploy.prod` uses `.env.prod`
-
-  Notes:
-  - If `ENVIRONMENT` is unset in the file, Terraform defaults to `dev`.
-  - This setup switches which env file is used; it does not create separate Terraform state by itself. If you need staging and prod deployed at the same time, use separate Terraform workspaces (or separate state backends) per environment before running `make deploy.<env>`.
-
 ### Terraform workspace auto-select (coexistence)
-
-When `ENVIRONMENT` is set (e.g., via `.env.staging`), the scripts automatically select the Terraform workspace with the same name, creating it if needed. This allows multiple environments to coexist:
-
-- `make deploy.staging` → selects/creates Terraform workspace `staging`
-- `make deploy.prod` → selects/creates Terraform workspace `prod`
-- `make destroy.staging` → selects workspace `staging` and destroys that env
-
-Important:
-- Some resources (e.g., Route 53 hosted zones for `DOMAIN_NAME`, ACM certificates) are global and cannot be duplicated with identical names across workspaces. Use distinct `DOMAIN_NAME`/`TLD_ZONE_ID` per environment or manage such resources in a separate base stack.
-
 
 After adding these variables, you are ready to start:
 
