@@ -8,3 +8,5 @@ terraform.tfstate*
 .terraform.log
 **.terraform.lock.hcl
 infra/.config
+.env.staging
+.env.prod
